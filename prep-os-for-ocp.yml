@@ -1,0 +1,74 @@
+- hosts: all
+  sudo: True
+
+  environment:
+     https_proxy: http://proxy.nozell.com:3128
+     http_proxy: http://proxy.nozell.com:3128
+
+  tasks:
+
+    - name: "register this new system"
+      shell: sudo subscription-manager register --username XXX --password 'XXX' --force 
+
+    - name: "attach to the pool that includes OCP"
+      shell: subscription-manager attach --pool=XXX
+
+    - name: "Add repositories for OpenShift 3.5"
+      shell: subscription-manager repos --enable="rhel-7-server-rpms" --enable="rhel-7-server-extras-rpms" --enable="rhel-7-server-ose-3.5-rpms" --enable="rhel-7-fast-datapath-rpms"
+
+    - name: "Update the system"
+      yum:
+        name: '*'
+        state: latest
+
+    - name: "Install required packages"
+      yum: name={{ item }} state=present
+      with_items:
+       - vim 
+       - telnet 
+       - wget 
+       - git 
+       - net-tools 
+       - bind-utils 
+       - iptables-services 
+       - bridge-utils 
+       - bash-completion 
+       - nfs-utils
+
+    - name: "Nice to have extra packages"
+      yum: name={{ item }} state=present
+      with_items:
+       - emacs-nox 
+
+    - name: "More packages for OpenShift"
+      yum: name={{ item }} state=present
+      with_items:
+         - ansible
+         - atomic-openshift-utils 
+         - atomic-openshift-excluder 
+         - atomic-openshift-docker-excluder
+
+    - name: "Install Docker"
+      yum:
+        name: docker
+        state: present
+
+    - name: "Configurações Docker Storage - 2"
+      blockinfile: dest=/etc/sysconfig/docker-storage-setup
+                   content="DEVS=/dev/vdb
+                   VG=docker-vg"
+
+    - name: "Execute Docker Storage Setup"
+      shell:  docker-storage-setup;   
+
+    - name: "Enable Docker"
+      shell:  systemctl enable docker;   
+
+    - name: "Inicia Docker"
+      shell:  systemctl start docker;
+
+    - name: "Configurações Necessarias (Conflitos de pacotes) - 1"
+      shell:   atomic-openshift-excluder unexclude;      
+
+    - name: "Configurações Necessarios (Conflitos de pacotes) - 2"
+      shell:   atomic-openshift-docker-excluder unexclude;         

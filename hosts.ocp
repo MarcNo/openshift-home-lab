@@ -1,0 +1,33 @@
+# Create an OSEv3 group that contains the masters and nodes groups
+[OSEv3:children]
+masters
+nodes
+
+# Set variables common for all OSEv3 hosts
+[OSEv3:vars]
+# SSH user, this user should allow ssh based auth without requiring a password
+ansible_ssh_user=root
+openshift_hosted_metrics_deploy=false
+openshift_release=v3.5
+
+# If ansible_ssh_user is not root, ansible_become must be set to true
+#ansible_become=true
+
+deployment_type=openshift-enterprise
+
+openshift_master_cluster_hostname=ocp.nozell.com
+openshift_master_cluster_public_hostname=ocp.nozell.com
+openshift_master_default_subdomain=apps.nozell.com
+
+# uncomment the following to enable htpasswd authentication; defaults to DenyAllPasswordIdentityProvider
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+
+# host group for masters
+[masters]
+master0.nozell.com
+
+# host group for nodes, includes region info
+[nodes]
+master0.nozell.com openshift_node_labels="{'region': 'infra', 'zone': 'default'}" openshift_schedulable=true
+node0.nozell.com openshift_node_labels="{'region': 'primary', 'zone': 'east'}" openshift_schedulable=true
+node1.nozell.com openshift_node_labels="{'region': 'primary', 'zone': 'west'}" openshift_schedulable=true
