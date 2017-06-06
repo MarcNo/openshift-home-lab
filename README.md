@@ -1,7 +1,7 @@
 # openshift-home-lab
 Sample script to build a KVM environment for OpenShift 3.5 in my homelab
 
-[I](mailto:mnozell@redhat.com) (irc: [MarcNo](mailto:marc@nozell.com)
+[I](mailto:mnozell@redhat.com) (irc: [MarcNo](mailto:marc@nozell.com))
 needed to setup a local OpenShift environment for experimentation on a
 local desktop with 32GB memory. These config files work for me to do a
 simple install of OCP 3.5.
@@ -30,14 +30,14 @@ Thanks to mmagnani and ruchika for kickstarting the initial work.
   specific IP addresses to known mac addresses. ie: VMs always get the
   same IP address from DHCP.
 * RHEL 7 KVM hypervisor host
-* rhel-guest-image-7.3-35.x86_64.qcow2 (from http://downloads.redhat.com)
+* `rhel-guest-image-7.3-35.x86_64.qcow2` (from https://access.redhat.com/downloads/)
 
 ## editing scripts
 
 User specific information could/should be abstracted out to files
 instead of editing files.  Send patches/PRs.
 
-### edit Vagrantfile
+### edit various files
 
 * Edit the VM hostnames, IP addresses and default gateway.  Four VMs
   are created, choose your own names/addresses
@@ -62,31 +62,33 @@ Also setup wildcard DNS entry for *.ocp.nozell.com, *.apps.nozell.com
 to point to the master0.
 
 
-### edit prep.yml
+* Update your DHCP server
+
+Tie those specific IP addresses defined in DNS to known mac
+addresses. ie: VMs always get the same IP address from DHCP.
+
+### edit prep-os-for-ocp.yml
 
 * Use your own Red Hat subscription username/password
 
       shell: sudo subscription-manager register --username XXX --password 'XXX' --force 
 
-## Run
+## Run on your hypervisor
 
-   1-create.sh -- Create qemu files for OS, container storage, OS config
-   2-build.sh -- Install VMs and attach disks
-   3-keys.sh -- push ssh keys around
-   4-prep.sh -- update the VMs with required packages, etc
-   5-cluster.sh -- copy files to jump VMs and remind the next steps
+*   `1-create.sh` -- Create qemu files for OS, container storage, OS config
+*   `2-build.sh` -- Install VMs and attach disks
+*   `3-keys.sh` -- push ssh keys around
+*   `4-prep.sh` -- update the VMs with required packages, etc
+*   `5-cluster.sh` -- copy files to jump VMs and remind the next steps
 
 ## Post configuration
 
 ### Install OpenShift 
 
-        $ ssh root@jump.nozell.com # password is redhat
-	
-        # ssh-keygen
-
-	# bash ./3-keys.sh
-	
-        # ansible-playbook -i hosts.ocp /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml
+* hypervisor# ssh root@jump.nozell.com # password is redhat
+* jump#       ssh-keygen
+* jump#       bash ./3-keys.sh
+* jump#       ansible-playbook -i hosts.ocp /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml
 
 ## TODO
 
