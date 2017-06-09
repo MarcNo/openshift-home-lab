@@ -34,7 +34,7 @@ do
     echo "[Customizing $i system]"
     virt-customize -a $image --run-command 'yum remove cloud-init* -y'
     virt-customize -a $image --root-password password:redhat
-    virt-customize -a $image --hostname "$i.$domain"
+    virt-customize -a $image --hostname "$i"
     echo "[$i done]"
 
 done
