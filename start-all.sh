@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for i in jump master0 node0 node1;
+for i in `cat hosts`;
 do 
 	virsh start $i
 done

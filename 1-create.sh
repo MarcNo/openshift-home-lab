@@ -7,7 +7,13 @@ vms="$workspace/VMs"
 
 rhel_image="$isos/rhel-guest-image-7.3-35.x86_64.qcow2"
 
-for i in jump master0 node0 node1;
+if [ ! -d $vms ]
+then
+    echo "Creating $vms"
+    mkdir -p $vms
+fi
+
+for i in `cat hosts`;
 do 
 
     echo "########################################################################"

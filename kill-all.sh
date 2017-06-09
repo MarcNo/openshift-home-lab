@@ -5,7 +5,7 @@ workspace="/home/marc/ocp"
 isos="/home/marc/ISOs"
 vms="$workspace/VMs"
 
-for i in jump master0 node0 node1;
+for i in `cat hosts`;
 do 
 
     echo "########################################################################"

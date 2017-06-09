@@ -2,8 +2,8 @@
 
 domain="nozell.com"
 
-for i in jump master0 node0 node1;
+for i in `cat hosts`;
 do 
-	ssh-copy-id $i.$domain
+	ssh-copy-id $i
 done
 
