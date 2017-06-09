@@ -9,8 +9,8 @@ simple install of OCP 3.5.
 If you want to do the same, here are some scripts and configuration
 files to help get you going.
 
-This is a bit rough and requires some editing of files.  Please send
-patches/PR.
+This is still a bit rough and requires some editing of files.  Please
+send patches/PR.
 
 Thanks to mmagnani and ruchika for kickstarting the initial work.
 
@@ -77,6 +77,7 @@ addresses. ie: VMs always get the same IP address from DHCP.
 
 *   `1-create.sh` -- Create qemu files for OS, container storage, OS config
 *   `2-build.sh` -- Install VMs and attach disks
+*   `start-all.sh` -- boot them up
 *   `3-keys.sh` -- push ssh keys around
 *   `4-prep.sh` -- update the VMs with required packages, etc
 *   `5-cluster.sh` -- copy files to jump VMs and remind the next steps
@@ -92,6 +93,6 @@ addresses. ie: VMs always get the same IP address from DHCP.
 
 ## TODO
 
-* move sensitive values to external file
-* abstract out domain/hostname/mac addresses
+* move sensitive values in prep-os-for-ocp.yml to external file
+* abstract out mac addresses
 * fix warning messages from ansible (replace sudo with become/become_user/become_method, service module, etc)
