@@ -1,3 +1,4 @@
 /VMs/
 typescript
 *~
+*.secret

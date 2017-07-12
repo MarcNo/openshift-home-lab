@@ -24,10 +24,9 @@ openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 
 
 # host group for masters
 [masters]
-master0.nozell.com
+master0.gwiki.org
 
 # host group for nodes, includes region info
 [nodes]
-master0.nozell.com openshift_node_labels="{'region': 'infra', 'zone': 'default'}" openshift_schedulable=true
-node0.nozell.com openshift_node_labels="{'region': 'primary', 'zone': 'east'}" openshift_schedulable=true
-node1.nozell.com openshift_node_labels="{'region': 'primary', 'zone': 'west'}" openshift_schedulable=true
+master0.gwiki.org openshift_node_labels="{'region': 'infra', 'zone': 'default'}" openshift_schedulable=true
+node0.gwiki.org openshift_node_labels="{'region': 'primary', 'zone': 'east'}" openshift_schedulable=true

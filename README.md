@@ -48,6 +48,8 @@ instead of editing files.  Send patches/PRs.
 * Edit `2-build.sh` to create a mapping from your hostname.$DOMAIN and
   mac addresses for the VMs.  (yeah, this should be abstracted out)
 
+* Edit `hosts` and `hosts.ocp` to match your environment.  
+
 * Three VMs are created, choose your own names/addresses
 
   * `jump.$DOMAIN` - jumpstation (where you run the OCP installer from)
