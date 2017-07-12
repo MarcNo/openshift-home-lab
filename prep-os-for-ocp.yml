@@ -1,17 +1,17 @@
 - hosts: all
   sudo: True
 
-  environment:
-     https_proxy: http://proxy.nozell.com:3128
-     http_proxy: http://proxy.nozell.com:3128
+  # environment:
+  #    https_proxy: http://proxy.nozell.com:3128
+  #    http_proxy: http://proxy.nozell.com:3128
 
   tasks:
 
     - name: "register this new system"
       shell: sudo subscription-manager register --username XXX --password 'XXX' --force 
 
-    - name: "attach to the pool that includes OCP"
-      shell: subscription-manager attach --pool=XXX
+    - name: "attach to the pool that includes OCP 3.5"
+      shell: subscription-manager attach --pool=8a85f9833e1404a9013e3cddf95a0599
 
     - name: "Add repositories for OpenShift 3.5"
       shell: subscription-manager repos --enable="rhel-7-server-rpms" --enable="rhel-7-server-extras-rpms" --enable="rhel-7-server-ose-3.5-rpms" --enable="rhel-7-fast-datapath-rpms"

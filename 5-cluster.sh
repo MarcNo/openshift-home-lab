@@ -1,9 +1,11 @@
 #!/bin/bash
 
+source ./env.sh
+
 echo "copied sample configuration hosts.ocp, hosts and 3-keys.sh to jump.nozell.com"
-scp hosts.ocp root@jump.nozell.com:~/
-scp hosts root@jump.nozell.com:~/
-scp 3-keys.sh root@jump.nozell.com:~/
+scp hosts.ocp root@jump.$DOMAIN:~/
+scp hosts root@jump.$DOMAIN:~/
+scp 3-keys.sh root@jump.$DOMAIN:~/
 echo "ssh there and run:"
 echo "            ssh-keygen"
 echo "            bash ./3-keys.sh"
@@ -15,7 +17,7 @@ https://access.redhat.com/documentation/en-us/openshift_container_platform/3.5/h
 
 Once the cluster is created, 
 
-ssh root@master0.nozell.com and do:
+ssh root@master0.$DOMAIN and do:
 
    htpasswd -b /etc/origin/master/htpasswd marc SekretPassword
    oadm policy add-role-to-user system:registry marc
@@ -39,4 +41,4 @@ oadm policy add-cluster-role-to-user \
 
 oadm router <router_name> --replicas=<number> --service-account=router
 
-https://master0.nozell.com:8443/
+https://master0.$DOMAIN:8443/

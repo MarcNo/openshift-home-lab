@@ -16,7 +16,7 @@ Thanks to mmagnani and ruchika for kickstarting the initial work.
 
 ## What do you get
 
-* Four RHEL7.3 VMs running in KVM
+* Three RHEL7.3 VMs running in KVM
 * Registered and appropriate subscriptions attached 
 * required RPMs installed, including atomic-openshift-installer
 * docker installed and storage configured
@@ -39,28 +39,35 @@ instead of editing files.  Send patches/PRs.
 
 ### edit various files
 
-* Edit the VM hostnames, IP addresses and default gateway.  Four VMs
-  are created, choose your own names/addresses
+* Edit `env.sh` for your environment:
+  - DOMAIN - the domain name to use
+  - WORKSPACE - where VMs, etc are stored
+  - ISOS - where your ISOs can be found
+  - RHEL_IMAGE - your rhel-guest-image-7.3-35.x86_64.qcow2 is
 
-  * `jump.nozell.com` - jumpstation (where you run the OCP installer from)
-  * `master0.nozell.com` - first and only master node 
-  * `node0.nozell.com`, `node1.nozell.com` - compute nodes
+* Edit `2-build.sh` to create a mapping from your hostname.$DOMAIN and
+  mac addresses for the VMs.  (yeah, this should be abstracted out)
+
+* Three VMs are created, choose your own names/addresses
+
+  * `jump.$DOMAIN` - jumpstation (where you run the OCP installer from)
+  * `master0.$DOMAIN` - first and only master node 
+  * `node0.$DOMAIN` - compute node (you can add more to `hosts`
 
 * Update your DNS server. Google hosts my DNS records, so I don't need
-to hack `/etc/resolv.conf`. But you will need to update your DNS A
-records to point to the local addresses so it looks like this.  eg:
+  to hack `/etc/resolv.conf`. But you will need to update your DNS A
+  records to point to the local addresses so it looks like this.  eg:
 
-        $ nslookup jump.nozell.com
+        $ nslookup jump.$DOMAIN
         Server:		8.8.8.8
         Address:	8.8.8.8#53
         
         Non-authoritative answer:
-        Name:	jump.nozell.com
+        Name:	jump.$DOMAIN
         Address: 192.168.88.99
 
-Also setup wildcard DNS entry for *.ocp.nozell.com, *.apps.nozell.com
-to point to the master0.
-
+Also setup wildcard DNS entry for *.ocp.$DOMAIN, *.apps.$DOMAIN to
+point to the master0.$DOMAIN
 
 * Update your DHCP server
 
@@ -94,5 +101,4 @@ addresses. ie: VMs always get the same IP address from DHCP.
 ## TODO
 
 * move sensitive values in prep-os-for-ocp.yml to external file
-* abstract out mac addresses
 * fix warning messages from ansible (replace sudo with become/become_user/become_method, service module, etc)

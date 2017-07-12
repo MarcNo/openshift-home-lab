@@ -1,9 +1,9 @@
 #!/bin/bash
 
-domain="nozell.com"
+source ./env.sh
 
 for i in `cat hosts`;
 do 
-	ssh-copy-id $i
+	ssh-copy-id root@$i
 done
 
