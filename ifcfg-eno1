@@ -1,0 +1,23 @@
+TYPE=Ethernet
+BOOTPROTO=none
+DEVICE=eno1  #Physical interface
+ONBOOT=yes
+BRIDGE=br1
+
+# TYPE="Ethernet"
+# BOOTPROTO="dhcp"
+# DEFROUTE="yes"
+# PEERDNS="yes"
+# PEERROUTES="yes"
+# IPV4_FAILURE_FATAL="no"
+# IPV6INIT="yes"
+# IPV6_AUTOCONF="yes"
+# IPV6_DEFROUTE="yes"
+# IPV6_PEERDNS="yes"
+# IPV6_PEERROUTES="yes"
+# IPV6_FAILURE_FATAL="no"
+# IPV6_ADDR_GEN_MODE="stable-privacy"
+# NAME="eno1"
+# UUID="78aa50b5-2fda-49cf-bd0c-8f36b6bfe048"
+# DEVICE="eno1"
+# ONBOOT="yes"
