@@ -12,6 +12,8 @@ echo "            bash ./3-keys.sh"
 echo "            ansible-playbook -i hosts.ocp /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml"
 exit
 ####
+# Below are random notes
+####
 
 https://access.redhat.com/documentation/en-us/openshift_container_platform/3.5/html/installation_and_configuration/installing-a-cluster#what-s-next-2
 
