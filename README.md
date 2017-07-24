@@ -88,14 +88,15 @@ addresses. ie: VMs always get the same IP address from DHCP.
 
 ### Install OpenShift 
 
-* hypervisor# ssh root@jump.nozell.com # password is redhat
-* jump#       ssh-keygen
-* jump#       bash ./3-keys.sh
-* jump#       ansible-playbook -i hosts.ocp /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml
+* `hypervisor# ssh root@jump.nozell.com # password is redhat`
+* `jump#       ssh-keygen`
+* `jump#       bash ./3-keys.sh`
+* `jump#       ansible-playbook -i hosts.ocp /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml`
 
 * Once the cluster is created, ssh root@master0 and create a non-admin user:
-  # touch /etc/origin/master/htpasswd
-  # htpasswd /etc/origin/master/htpasswd someuser
+
+  `# touch /etc/origin/master/htpasswd`
+  `# htpasswd /etc/origin/master/htpasswd someuser`
 
 ## TODO
 
