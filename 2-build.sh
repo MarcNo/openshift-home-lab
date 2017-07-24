@@ -16,14 +16,14 @@ do
     image="$VMS/$i.qcow2"
     dockerdisk="$VMS/$i-docker.qcow2"
 
-    echo "[dry-run install $i w/ mac ${macaddress[$i]}"
+    echo "[dry-run install $i w/ mac ${MACADDRESS[$i]}"
 
     virt-install --ram 8192  --vcpus 4 --os-variant rhel7 --disk path=$image,device=disk,bus=virtio,format=qcow2 \
-    	--noautoconsole --vnc --name $i --dry-run --cpu Skylake-Client,+vmx --network bridge=virbr0,mac=${macaddress[$i]} \
+    	--noautoconsole --vnc --name $i --dry-run --cpu Skylake-Client,+vmx --network bridge=virbr0,mac=${MACADDRESS[$i]} \
     	--print-xml > $VMS/$i.xml
 #
 # or if you are using br1 for the bridge, use this above instead. You may also need to change the CPU depending on the hypervisor's CPU
-#    	--noautoconsole --vnc --name $i --dry-run --cpu Skylake-Client,+vmx --network bridge=br1,mac=${macaddress[$i]} \
+#    	--noautoconsole --vnc --name $i --dry-run --cpu Skylake-Client,+vmx --network bridge=br1,mac=${MACADDRESS[$i]} \
 #
 
     echo "[define $i]"

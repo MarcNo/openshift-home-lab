@@ -34,27 +34,20 @@ Thanks to mmagnani and ruchika for kickstarting the initial work.
 
 ## editing scripts
 
-User specific information could/should be abstracted out to files
-instead of editing files.  Send patches/PRs.
+You should only have to edit one configuration file, env.sh
 
 ### edit various files
 
 * Edit `env.sh` for your environment:
-  - DOMAIN - the domain name to use
-  - WORKSPACE - where VMs, etc are stored
+  - VM_LIST - the names of the VMs to create (3 by default, add more
+    if needed)
+  - DOMAIN - the domain name to use for the hosts (ie: gwiki.org)
+  - MACADDRESS - MAC addresses for your VMs (be unique)
+  - OCPDOMAIN - the domain name for the cluster (ie: ocp.nozell.com,
+    *.apps.nozell.com)  
+  - WORKSPACE, VMS - where VMs, etc are stored
   - ISOS - where your ISOs can be found
   - RHEL_IMAGE - your rhel-guest-image-7.3-35.x86_64.qcow2 is
-
-* Edit `2-build.sh` to create a mapping from your hostname.$DOMAIN and
-  mac addresses for the VMs.  (yeah, this should be abstracted out)
-
-* Edit `hosts` and `hosts.ocp` to match your environment.  
-
-* Three VMs are created, choose your own names/addresses
-
-  * `jump.$DOMAIN` - jumpstation (where you run the OCP installer from)
-  * `master0.$DOMAIN` - first and only master node 
-  * `node0.$DOMAIN` - compute node (you can add more to `hosts`
 
 * Update your DNS server. Google hosts my DNS records, so I don't need
   to hack `/etc/resolv.conf`. But you will need to update your DNS A
@@ -68,8 +61,8 @@ instead of editing files.  Send patches/PRs.
         Name:	jump.$DOMAIN
         Address: 192.168.88.99
 
-Also setup wildcard DNS entry for *.ocp.$DOMAIN, *.apps.$DOMAIN to
-point to the master0.$DOMAIN
+Also setup wildcard DNS entry for *.ocp.$OCPDOMAIN, *.apps.$OCPDOMAIN to
+point to the master0.$OCPDOMAIN
 
 * Update your DHCP server
 
@@ -99,6 +92,10 @@ addresses. ie: VMs always get the same IP address from DHCP.
 * jump#       ssh-keygen
 * jump#       bash ./3-keys.sh
 * jump#       ansible-playbook -i hosts.ocp /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml
+
+* Once the cluster is created, ssh root@master0 and create a non-admin user:
+  # touch /etc/origin/master/htpasswd
+  # htpasswd /etc/origin/master/htpasswd someuser
 
 ## TODO
 
