@@ -4,7 +4,7 @@
   tasks:
 
     - name: "register this new system"
-      shell: sudo subscription-manager register --username XXX --password 'XXX' --force 
+      shell: sudo subscription-manager register --username 'XXX' --password 'XXX' --force 
 
     - name: "attach to the pool that includes OCP 3.5"
       shell: subscription-manager attach --pool=8a85f9833e1404a9013e3cddf95a0599
@@ -49,7 +49,7 @@
         name: docker
         state: present
 
-    - name: "Configurações Docker Storage - 2"
+    - name: "Configure Docker Storage"
       blockinfile: dest=/etc/sysconfig/docker-storage-setup
                    content="DEVS=/dev/vdb
                    VG=docker-vg"
@@ -57,14 +57,14 @@
     - name: "Execute Docker Storage Setup"
       shell:  docker-storage-setup;   
 
-    - name: "Enable Docker"
+    - name: "Enable Docker Service"
       shell:  systemctl enable docker;   
 
-    - name: "Inicia Docker"
+    - name: "Start Docker Service"
       shell:  systemctl start docker;
 
-    - name: "Configurações Necessarias (Conflitos de pacotes) - 1"
+    - name: "Unexclude openshift packages"
       shell:   atomic-openshift-excluder unexclude;      
 
-    - name: "Configurações Necessarios (Conflitos de pacotes) - 2"
+    - name: "Unexclude openshift docker packages"
       shell:   atomic-openshift-docker-excluder unexclude;         

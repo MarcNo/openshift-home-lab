@@ -2,14 +2,15 @@
 
 source ./env.sh
 
-echo "copied sample configuration hosts.ocp, hosts and 3-keys.sh to jump.nozell.com"
+echo "copied sample configuration hosts.ocp, hosts and 3-keys.sh to the jumpstation"
 scp hosts.ocp root@jump.$DOMAIN:~/
 scp hosts root@jump.$DOMAIN:~/
 scp 3-keys.sh root@jump.$DOMAIN:~/
-echo "ssh there and run:"
-echo "            ssh-keygen"
-echo "            bash ./3-keys.sh"
-echo "            ansible-playbook -i hosts.ocp /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml"
+echo "Do this:"
+echo "            $ ssh root@jump.$DOMAIN"
+echo "            jump# ssh-keygen"
+echo "            jump# bash ./3-keys.sh"
+echo "            jump# ansible-playbook -i hosts.ocp /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml"
 exit
 ####
 # Below are random notes
