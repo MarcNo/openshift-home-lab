@@ -86,13 +86,19 @@ addresses. ie: VMs always get the same IP address from DHCP.
   (br0) and have enp0s20f0u1 bound (aka slaved) to it.
 
   `nmcli con add type bridge ifname br0` 
+
   `nmcli con show` # some will be yellow
+
   `nmcli -f bridge con show bridge-br0` # just take a look
+
   `nmcli con add type bridge-slave ifname enp0s20f0u1 master br0`
+
   `ifup br0`
+
   `nmcli con show`  # all green
   
   Then edit /etc/qemu-kvm/bridge.conf to add:
+
   `allow br0`
   
   Optional just finishing up libvirt config
@@ -103,7 +109,9 @@ addresses. ie: VMs always get the same IP address from DHCP.
   command, do this:
   
   `virsh net-define /usr/share/libvirt/networks/default.xml`
+
   `virsh net-start default`
+
   `virsh net-autostart default`
 
 ### edit prep-os-for-ocp.yml
@@ -114,6 +122,7 @@ addresses. ie: VMs always get the same IP address from DHCP.
 
 ## Run on your hypervisor
 
+*   `0-generate.sh` -- Create hosts and hosts.ocp based on your env.sh settings
 *   `1-create.sh` -- Create qemu files for OS, container storage, OS config
 *   `2-build.sh` -- Install VMs and attach disks
 *   `start-all.sh` -- boot them up
