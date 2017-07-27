@@ -14,3 +14,4 @@ export WORKSPACE="$HOME/ocp"
 export VMS="$WORKSPACE/VMs"
 export ISOS="$HOME/ISOs"
 export RHEL_IMAGE="$ISOS/rhel-guest-image-7.3-35.x86_64.qcow2"
+export BRIDGE="br0" # or virbr0 depending on your needs
