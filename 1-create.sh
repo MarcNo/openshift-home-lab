@@ -19,7 +19,7 @@ do
     dockerdisk="$VMS/$i-docker.qcow2"
 
     echo "[Creating a 60G disk for root, $image]"
-    qemu-img create -f qcow2 $baseimage 60G
+    qemu-img create -f qcow2 $baseimage 120G
     virt-resize --expand /dev/sda1 $RHEL_IMAGE $baseimage
     qemu-img create -f qcow2 -b $baseimage $image
 
