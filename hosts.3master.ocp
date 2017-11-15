@@ -30,21 +30,21 @@ openshift_master_cluster_method=native
 
 # host group for masters
 [masters]
-master0.nozell.com
-master1.nozell.com
-master2.nozell.com
+master0.gwiki.org
+master1.gwiki.org
+master2.gwiki.org
 
 # host group for nodes, includes region info
 [nodes]
-master0.nozell.com openshift_node_labels="{'region': 'infra', 'zone': 'default'}" openshift_schedulable=true
-master1.nozell.com openshift_node_labels="{'region': 'infra', 'zone': 'default'}" openshift_schedulable=true
-master2.nozell.com openshift_node_labels="{'region': 'infra', 'zone': 'default'}" openshift_schedulable=true
-node0.nozell.com openshift_node_labels="{'region': 'primary', 'zone': 'east'}" openshift_schedulable=true
+master0.gwiki.org openshift_node_labels="{'region': 'infra', 'zone': 'default'}" openshift_schedulable=true
+master1.gwiki.org openshift_node_labels="{'region': 'infra', 'zone': 'default'}" openshift_schedulable=true
+master2.gwiki.org openshift_node_labels="{'region': 'infra', 'zone': 'default'}" openshift_schedulable=true
+node0.gwiki.org openshift_node_labels="{'region': 'primary', 'zone': 'east'}" openshift_schedulable=true
 
 [lb]
-node1.nozell.com
+node1.gwiki.org
 
 [etcd]
-master0.nozell.com
-master1.nozell.com
-master2.nozell.com
+master0.gwiki.org
+master1.gwiki.org
+master2.gwiki.org

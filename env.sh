@@ -7,7 +7,9 @@ declare -A MACADDRESS=( \
     ["master1."$DOMAIN]="52:54:00:AC:C6:E1" \
     ["master2."$DOMAIN]="52:54:00:DE:6B:C4" \
     ["node0."$DOMAIN]="52:54:00:96:FF:84"   \
-    ["node1."$DOMAIN]="52:54:00:4A:22:9A"   \
+    ["node1."$DOMAIN]="52:54:00:4A:22:9B"   \
+    ["node2."$DOMAIN]="52:54:00:4A:22:9C"   \
+    ["node3."$DOMAIN]="52:54:00:4A:22:9D"   \
 )
 export OCPDOMAIN="nozell.com"
 export WORKSPACE="$HOME/ocp"
@@ -15,3 +17,6 @@ export VMS="$WORKSPACE/VMs"
 export ISOS="$HOME/ISOs"
 export RHEL_IMAGE="$ISOS/rhel-guest-image-7.3-35.x86_64.qcow2"
 export BRIDGE="br0" # or virbr0 depending on your needs
+export VMRAM=16384
+export VMROOTDISK=120G
+export VMDOCKERDISK=10G
