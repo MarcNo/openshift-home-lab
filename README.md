@@ -1,10 +1,10 @@
 # openshift-home-lab
-Sample script to build a KVM environment for OpenShift 3.5 in my homelab
+Sample script to build a KVM environment for OpenShift 3.7 in my homelab
 
 [I](mailto:mnozell@redhat.com) (irc: [MarcNo](mailto:marc@nozell.com))
 needed to setup a local OpenShift environment for experimentation on a
 local desktop with 32GB memory. These config files work for me to do a
-simple install of OCP 3.5.
+simple install of OpenShift.
 
 If you want to do the same, here are some scripts and configuration
 files to help get you going.
