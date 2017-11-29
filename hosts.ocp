@@ -7,8 +7,9 @@ nodes
 [OSEv3:vars]
 # SSH user, this user should allow ssh based auth without requiring a password
 ansible_ssh_user=root
-openshift_hosted_metrics_deploy=false
-openshift_release=v3.6
+#openshift_hosted_metrics_deploy=false
+openshift_release=v3.7
+openshift_enable_service_catalog=true
 
 # If ansible_ssh_user is not root, ansible_become must be set to true
 #ansible_become=true
@@ -26,7 +27,13 @@ openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 
 [masters]
 master0.gwiki.org
 
+# host group for etcd
+[etcd]
+master0.gwiki.org
+
 # host group for nodes, includes region info
 [nodes]
 master0.gwiki.org openshift_node_labels="{'region': 'infra', 'zone': 'default'}" openshift_schedulable=true
 node0.gwiki.org openshift_node_labels="{'region': 'primary', 'zone': 'east'}" openshift_schedulable=true
+node1.gwiki.org openshift_node_labels="{'region': 'primary', 'zone': 'west'}" openshift_schedulable=true
+
