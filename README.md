@@ -114,12 +114,34 @@ addresses. ie: VMs always get the same IP address from DHCP.
 
   `virsh net-autostart default`
 
-### edit prep-os-for-ocp.yml
+### edit variables.yml
 
-* Use your own Red Hat subscription username/password
+* You need to set the openshift_subscription_pool for your own Red Hat account.
+  Use this command will tell you the pool id:
 
-      shell: sudo subscription-manager register --username XXX --password 'XXX' --force 
+      `subscription-manager list --all --available --matches "*openshift*"`
 
+  Make variable.yml look something like this:
+
+  `openshift_subscription_pool: 8a85f9833e1404a9013e3cddf95a0599`
+
+### create ansible-vault vault.yml
+
+* Create a vault to store your own Red Hat subscription
+  username/password in variables. (ie: what you use on the Red Hat
+  portal)
+
+  `ansible-vault create vault.yml`
+
+  Make variable.yml look something like this:
+
+  `vault_rhn_username: my-rhn-support-username`
+
+  `vault_rhn_password: secretpassword-for-rhn`
+
+  Take a look at the resulting file and it should not have the
+  variables in cleartext.
+  
 ## Run on your hypervisor
 
 *   `0-generate.sh` -- Create hosts and hosts.ocp based on your env.sh settings
@@ -134,7 +156,7 @@ addresses. ie: VMs always get the same IP address from DHCP.
 
 ### Install OpenShift 
 
-* `hypervisor# ssh root@jump.nozell.com # password is redhat`
+* `hypervisor# ssh root@jump.gwiki.com # password is redhat`
 * `jump#       ssh-keygen`
 * `jump#       bash ./3-keys.sh`
 * `jump#       ansible-playbook -i hosts.ocp /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml`
@@ -142,9 +164,9 @@ addresses. ie: VMs always get the same IP address from DHCP.
 * Once the cluster is created, ssh root@master0 and create a non-admin user:
 
   `# touch /etc/origin/master/htpasswd`
+
   `# htpasswd /etc/origin/master/htpasswd someuser`
 
 ## TODO
 
-* move sensitive values in prep-os-for-ocp.yml to external file
 * fix warning messages from ansible (replace sudo with become/become_user/become_method, service module, etc)

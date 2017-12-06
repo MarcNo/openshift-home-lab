@@ -3,11 +3,16 @@
 
   tasks:
 
+    - name: "Get variables and secrets"
+      include_vars:
+        file: variables.yml # contains openshift_pool
+        file: vault.yml     # contains vault_rhn_username and vault_rhn_password
+
     - name: "register this new system"
-      shell: sudo subscription-manager register --username 'XXX' --password 'XXX' --force 
+      shell: sudo subscription-manager register --username {{ vault_rhn_username }} --password {{ vault_rhn_password }} --force 
 
     - name: "attach to the pool that includes OpenShift"
-      shell: subscription-manager attach --pool=8a85f9833e1404a9013e3cddf95a0599
+      shell: subscription-manager attach --pool={{ openshift_subscription_pool }}
 
     - name: "Add repositories for OpenShift 3.7"
       shell: subscription-manager repos --enable="rhel-7-server-rpms" --enable="rhel-7-server-extras-rpms" --enable="rhel-7-server-ose-3.7-rpms" --enable="rhel-7-fast-datapath-rpms"

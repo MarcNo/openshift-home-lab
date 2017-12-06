@@ -1,0 +1,6 @@
+##
+## You need to set the openshift_subscription_pool for your own Red Hat account.
+## Using this command will tell you the pool id:
+##     subscription-manager list --all --available --matches "*openshift*"
+##
+openshift_subscription_pool: 8a85f9833e1404a9013e3cddf95a0599
