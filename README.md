@@ -117,9 +117,9 @@ addresses. ie: VMs always get the same IP address from DHCP.
 ### edit variables.yml
 
 * You need to set the openshift_subscription_pool for your own Red Hat account.
-  Use this command will tell you the pool id:
+  Use this command will find your pool id:
 
-      `subscription-manager list --all --available --matches "*openshift*"`
+  `subscription-manager list --all --available --matches "*openshift*"`
 
   Make variable.yml look something like this:
 
@@ -166,6 +166,13 @@ addresses. ie: VMs always get the same IP address from DHCP.
   `# touch /etc/origin/master/htpasswd`
 
   `# htpasswd /etc/origin/master/htpasswd someuser`
+
+### Start using OpenShift
+
+The easiest way to get started is to point a browser to
+https://ocp.$OCPDOMAIN:8443/ (in my example,
+https://ocp.nozell.com:8443)
+
 
 ## TODO
 
