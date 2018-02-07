@@ -36,10 +36,19 @@
     - name: Enable only required repositories with Subscription Manager
       command: subscription-manager repos --disable="*" --enable="rhel-7-server-rpms" --enable="rhel-7-server-extras-rpms" --enable="rhel-7-fast-datapath-rpms" 
 
+    - name: "Add repositories for OpenShift 3.7"
+      shell: subscription-manager repos --enable="rhel-7-server-ose-3.7-rpms" 
+
     - name: "Update the system"
       yum:
         name: '*'
         state: latest
+
+    - name: "Ansible and scripts to drive the openshift installation"
+      yum: name={{ item }} state=present
+      with_items:
+       - atomic-openshift-utils 
+       - ansible
 
     - name: "Nice to have extra packages"
       yum: name={{ item }} state=present
