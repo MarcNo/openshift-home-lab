@@ -6,7 +6,7 @@ source ./env.sh
 # eg: 
 # ip=192.168.88.123::192.168.88.1:255.255.255.0:test.example.com:eth0:none"
 
-for i in `cat hosts`;
+for i in `cat hosts|grep -v \\\\[`;
 do 
 
     echo "########################################################################"

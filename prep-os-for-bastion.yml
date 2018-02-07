@@ -1,0 +1,47 @@
+- hosts: jump
+  sudo: True
+
+  tasks:
+
+    - name: "Get variables"
+      include_vars:
+        file: vault.yml     # contains vault_rhn_username and vault_rhn_password
+
+    - name: "Get secrets"
+      include_vars:
+        file: variables.yml # contains openshift_subscription_pool
+
+
+    - name: Force unregister before register
+      redhat_subscription:
+        state: absent
+      ignore_errors: true
+
+    - name: register node with subscription-manager
+      redhat_subscription: state=present username="{{ vault_rhn_username }}" password="{{ vault_rhn_password }}" autosubscribe=false
+      register: task_result
+      until: task_result | succeeded
+      retries: 10
+      delay: 5
+
+    - name: attach node to subscription pool
+      command: subscription-manager attach --pool {{ item }}
+      register: task_result
+      until: task_result.rc == 0
+      retries: 10
+      delay: 1
+      ignore_errors: no
+      with_items: '{{openshift_subscription_pool}}'
+
+    - name: Enable only required repositories with Subscription Manager
+      command: subscription-manager repos --disable="*" --enable="rhel-7-server-rpms" --enable="rhel-7-server-extras-rpms" --enable="rhel-7-fast-datapath-rpms" 
+
+    - name: "Update the system"
+      yum:
+        name: '*'
+        state: latest
+
+    - name: "Nice to have extra packages"
+      yum: name={{ item }} state=present
+      with_items:
+       - emacs-nox 

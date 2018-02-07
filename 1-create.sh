@@ -8,7 +8,7 @@ then
     mkdir -p $VMS
 fi
 
-for i in `cat hosts`;
+for i in `cat hosts|grep -v \\\\[`;
 do 
 
     echo "########################################################################"
