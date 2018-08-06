@@ -7,7 +7,7 @@ nodes
 [OSEv3:vars]
 
 # optional
-# debug_level=4
+debug_level=4
 
 ansible_ssh_user=root
 
@@ -15,7 +15,7 @@ openshift_deployment_type=openshift-enterprise
 
 openshift_master_cluster_method=native
 
-# apps.nozell.com resolves to master0.gwiki.org ip address
+# apps.nozell.com resolves to node0.gwiki.org ip address
 openshift_master_default_subdomain=apps.nozell.com
 
 openshift_metrics_install_metrics=true
@@ -27,9 +27,10 @@ openshift_enable_service_catalog=true
 
 #openshift_disable_check=memory_availablity,disk_availablity
 
-#  uncomment the following to enable htpasswd authentication; defaults to DenyAllPasswordIdentityProvider
+# uncomment the following to enable htpasswd authentication; defaults to DenyAllPasswordIdentityProvider
 
 #openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
 
 # host group for masters
 [masters]
@@ -46,4 +47,3 @@ master0.gwiki.org
 
 master0.gwiki.org openshift_node_group_name='node-config-master-infra'
 node0.gwiki.org openshift_node_group_name='node-config-compute'
-
