@@ -3,4 +3,5 @@
 ## Using this command will tell you the pool id:
 ##     subscription-manager list --all --available --matches "*openshift*"
 ##
-openshift_subscription_pool: 8a85f9833e1404a9013e3cddf95a0599
+## This is tied to my Red Hat subscription, so it won't work for you.  
+openshift_subscription_pool: 8a85f98c63842fef01647d9012060465

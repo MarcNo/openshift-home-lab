@@ -11,7 +11,6 @@
       include_vars:
         file: variables.yml # contains openshift_subscription_pool
 
-
     - name: Force unregister before register
       redhat_subscription:
         state: absent
@@ -33,8 +32,14 @@
       ignore_errors: no
       with_items: '{{openshift_subscription_pool}}'
 
-    - name: "Add repositories for OpenShift 3.7"
-      shell: subscription-manager repos --enable="rhel-7-server-rpms" --enable="rhel-7-server-extras-rpms" --enable="rhel-7-server-ose-3.7-rpms" --enable="rhel-7-fast-datapath-rpms"
+    - name: "Disable all the enabled RHSM repositories"
+      shell: subscription-manager repos --disable="*"
+
+    # - name: "Disable all the enabled yum repositories"
+    #   shell: yum-config-manager --disable \*
+
+    - name: "Add repositories for OpenShift 3.10"
+      shell: subscription-manager repos --enable="rhel-7-server-rpms" --enable="rhel-7-server-extras-rpms" --enable="rhel-7-server-ose-3.10-rpms" --enable="rhel-7-fast-datapath-rpms" --enable="rhel-7-server-ansible-2.4-rpms"
 
     - name: "Update the system"
       yum:
@@ -44,8 +49,6 @@
     - name: "Install required packages"
       yum: name={{ item }} state=present
       with_items:
-       - vim 
-       - telnet 
        - wget 
        - git 
        - net-tools 
@@ -53,42 +56,73 @@
        - iptables-services 
        - bridge-utils 
        - bash-completion 
-       - nfs-utils
+       - kexec-tools
+       - sos
+       - psacct
+       - yum-utils
+       - openshift-ansible
+       - docker
+
+
+#     - name: Reboot the server
+#       shell: sleep 2 && shutdown -r now "Ansible package updates triggered"
+#       async: 1
+#       poll: 0
+#       ignore_errors: true
+  
+#     - name: Wait for server to shutdown
+#       local_action: shell ssh -o BatchMode=yes -o ConnectTimeout=2 -o StrictHostKeyChecking=no "root@{{ inventory_hostname }}" true
+#       register: result
+#       until: result.rc != 0
+#       failed_when: result.rc == -1
+#       retries: 200
+#       delay: 1
+
+#     - name: Wait for server to be ready
+#       local_action: shell ssh -o BatchMode=yes -o ConnectTimeout=2 -o StrictHostKeyChecking=no "root@{{ inventory_hostname }}" true
+#       register: result
+#       until: result.rc == 0
+#       retries: 200
+#       delay: 3
+  
+#       - name:
+#         shell: uptime
+
+# # https://blog.dustinrue.com/2017/12/reboot-and-wait-using-ansible/
 
     - name: "Nice to have extra packages"
       yum: name={{ item }} state=present
       with_items:
        - emacs-nox 
 
-    - name: "More packages for OpenShift"
+    - name: "Ansible and scripts to drive the openshift installation"
       yum: name={{ item }} state=present
       with_items:
-         - ansible
-         - atomic-openshift-utils 
-         - atomic-openshift-excluder 
-         - atomic-openshift-docker-excluder
+       - openshift-ansible
+       - ansible
 
-    - name: "Install Docker"
-      yum:
-        name: docker
-        state: present
+    # - name: "Install Docker"
+    #   yum:
+    #     name: docker-1.13.1
+    #     state: present
 
-    - name: "Configure Docker Storage"
-      blockinfile: dest=/etc/sysconfig/docker-storage-setup
-                   content="DEVS=/dev/vdb
-                   VG=docker-vg"
+    # - name: "Configure Docker Storage"
+    #   blockinfile: dest=/etc/sysconfig/docker-storage-setup
+    #                content="DEVS=/dev/vdb
+    #                VG=docker-vg"
 
-    - name: "Execute Docker Storage Setup"
-      shell:  docker-storage-setup;   
+    # - name: "Execute Docker Storage Setup"
+    #   shell:  docker-storage-setup;   
 
-    - name: "Enable Docker Service"
-      shell:  systemctl enable docker;   
 
-    - name: "Start Docker Service"
-      shell:  systemctl start docker;
+    # - name: "Enable Docker Service"
+    #   shell:  systemctl enable docker;   
 
-    - name: "Unexclude openshift packages"
-      shell:   atomic-openshift-excluder unexclude;      
+    # - name: "Start Docker Service"
+    #   shell:  systemctl start docker;
 
-    - name: "Unexclude openshift docker packages"
-      shell:   atomic-openshift-docker-excluder unexclude;         
+    # - name: "install atomic packages"
+    #   yum: name={{ item }} state=present
+    #   with_items:
+    #    - atomic
+

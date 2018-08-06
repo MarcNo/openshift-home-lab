@@ -7,10 +7,13 @@ scp hosts.ocp root@jump.$DOMAIN:~/
 scp hosts root@jump.$DOMAIN:~/
 scp 3-keys.sh root@jump.$DOMAIN:~/
 echo "Do this:"
-echo "            $ ssh root@jump.$DOMAIN"
+echo "            $ ssh root@xjump.$DOMAIN"
 echo "            jump# ssh-keygen"
 echo "            jump# bash ./3-keys.sh"
-echo "            jump# ansible-playbook -i hosts.ocp /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml"
+echo "            jump# ansible-playbook -i hosts.ocp /usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml"
+echo "            jump# ansible-playbook -i hosts.ocp /usr/share/ansible/openshift-ansible/playbooks/deploy-cluster.yml"
+echo "		  jump# ssh root@master0.gwiki.org \"htpasswd -b /etc/origin/master/htpasswd marc SekretPassword\""
+echo "		  jump# oadm policy add-role-to-user system:registry marc (optional)"
 exit
 ####
 # Below are random notes

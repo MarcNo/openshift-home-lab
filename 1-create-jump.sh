@@ -8,7 +8,7 @@ then
     mkdir -p $VMS
 fi
 
-for i in `cat hosts|grep -v \\\\[`;
+for i in `cat hosts.jump|grep -v \\\\[`;
 do 
 
     echo "########################################################################"
@@ -24,12 +24,6 @@ do
     virt-resize --expand /dev/sda1 $RHEL_IMAGE $baseimage
 
     qemu-img create -f qcow2 -b $baseimage $image
-
-    echo "[Creating a $VMDOCKERDISK disk for docker, $dockerdisk]"
-    qemu-img create -f raw $dockerdisk $VMDOCKERDISK
-
-    echo "[Creating a $VMGLUSTERFSDISK disk for glusterfs, $glusterfsdisk]"
-    qemu-img create -f raw $glusterfsdisk $VMGLUSTERFSDISK
 
     echo "[Customizing $i system]"
     virt-customize -a $image --run-command 'yum remove cloud-init* -y'

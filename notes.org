@@ -1,0 +1,14 @@
+* subscription manager
+
+- subscription-manager list --all --available --matches "*openshift*"
+or
+- subscription-manager register --username rhn-USERNAME --password XXX
+- subscription-manager list --available > x.x ; vi x.x
+
+* Vault
+
+ansible-vault edit vault.yml
+
+* ansible reboot if needed
+
+https://oguya.ch/posts/2015-02-22-ansible-reboot-servers/

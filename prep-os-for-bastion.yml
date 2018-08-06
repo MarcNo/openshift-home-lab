@@ -24,6 +24,9 @@
       retries: 10
       delay: 5
 
+    - name: "Disable all the enabled RHSM repositories"
+      shell: subscription-manager repos --disable="*"
+
     - name: attach node to subscription pool
       command: subscription-manager attach --pool {{ item }}
       register: task_result
@@ -33,11 +36,8 @@
       ignore_errors: no
       with_items: '{{openshift_subscription_pool}}'
 
-    - name: Enable only required repositories with Subscription Manager
-      command: subscription-manager repos --disable="*" --enable="rhel-7-server-rpms" --enable="rhel-7-server-extras-rpms" --enable="rhel-7-fast-datapath-rpms" 
-
-    - name: "Add repositories for OpenShift 3.7"
-      shell: subscription-manager repos --enable="rhel-7-server-ose-3.7-rpms" 
+    - name: "Add repositories for OpenShift 3.10"
+      shell: subscription-manager repos --enable="rhel-7-server-rpms" --enable="rhel-7-server-extras-rpms" --enable="rhel-7-server-ose-3.10-rpms" --enable="rhel-7-fast-datapath-rpms" --enable="rhel-7-server-ansible-2.4-rpms"
 
     - name: "Update the system"
       yum:
@@ -47,7 +47,7 @@
     - name: "Ansible and scripts to drive the openshift installation"
       yum: name={{ item }} state=present
       with_items:
-       - atomic-openshift-utils 
+       - openshift-ansible
        - ansible
 
     - name: "Nice to have extra packages"

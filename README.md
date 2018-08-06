@@ -1,5 +1,7 @@
 # openshift-home-lab
-Sample script to build a KVM environment for OpenShift 3.7 in my homelab
+Sample script to build a KVM environment for OpenShift 3.10 in my homelab
+
+...This README needs updating for 3.10...
 
 [I](mailto:mnozell@redhat.com) (irc: [MarcNo](mailto:marc@nozell.com))
 needed to setup a local OpenShift environment for experimentation on a
@@ -40,8 +42,6 @@ You should only have to edit one configuration file, env.sh
 ### edit various files
 
 * Edit `env.sh` for your environment:
-  - VM_LIST - the names of the VMs to create (3 by default, add more
-    if needed)
   - DOMAIN - the domain name to use for the hosts (ie: gwiki.org)
   - MACADDRESS - MAC addresses for your VMs (be unique)
   - OCPDOMAIN - the domain name for the cluster (ie: ocp.nozell.com,

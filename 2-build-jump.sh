@@ -6,7 +6,7 @@ source ./env.sh
 # eg: 
 # ip=192.168.88.123::192.168.88.1:255.255.255.0:test.example.com:eth0:none"
 
-for i in `cat hosts|grep -v \\\\[`;
+for i in `cat hosts.jump|grep -v \\\\[`;
 do 
 
     echo "########################################################################"
@@ -19,7 +19,7 @@ do
 
     echo "[dry-run install $i w/ mac ${MACADDRESS[$i]}"
 
-    virt-install --ram $VMRAM_OCP  --vcpus 4 --os-variant rhel7 --disk path=$image,device=disk,bus=virtio,format=qcow2 \
+    virt-install --ram $VMRAM_JUMP  --vcpus 4 --os-variant rhel7 --disk path=$image,device=disk,bus=virtio,format=qcow2 \
         --noautoconsole --vnc --name $i --dry-run --cpu Skylake-Client,+vmx --network bridge=${BRIDGE},mac=${MACADDRESS[$i]} \
     	--print-xml > $VMS/$i.xml
 # You may also need to change the CPU depending on the hypervisor's CPU
@@ -27,12 +27,6 @@ do
 
     echo "[define $i]"
     virsh define --file $VMS/$i.xml
-
-    echo "[attach disk to $i, $dockerdisk]"
-    virsh attach-disk $i --source $dockerdisk --target vdb --persistent
-
-    echo "[attach disk to $i, $glusterfsdisk]"
-    virsh attach-disk $i --source $glusterfsdisk --target vdc --persistent
 
     echo "[$i done]"
 
