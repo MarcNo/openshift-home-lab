@@ -1,9 +1,7 @@
 # openshift-home-lab
-Sample script to build a KVM environment for OpenShift 3.10 in my homelab
+Sample script to build a KVM environment for OpenShift 3.11 in my homelab
 
-...This README needs updating for 3.10...
-
-[I](mailto:mnozell@redhat.com) (irc: [MarcNo](mailto:marc@nozell.com))
+[I](mailto:mdunnett@redhat.com) (irc: [mdunnett](mailto:mdunnett@charter.net))
 needed to setup a local OpenShift environment for experimentation on a
 local desktop with 32GB memory. These config files work for me to do a
 simple install of OpenShift.
@@ -14,11 +12,11 @@ files to help get you going.
 This is still a bit rough and requires some editing of files.  Please
 send patches/PR.
 
-Thanks to mmagnani and ruchika for kickstarting the initial work.
+Thanks to mmagnani, ruchika, and MarcNo for kickstarting the initial work.
 
 ## What do you get
 
-* Three RHEL7.3 VMs running in KVM
+* Three RHEL7.5 VMs running in KVM
 * Registered and appropriate subscriptions attached 
 * required RPMs installed, including atomic-openshift-installer
 * docker installed and storage configured
@@ -27,31 +25,31 @@ Thanks to mmagnani and ruchika for kickstarting the initial work.
 ## Requirements
 
 * Access to DNS server.  I'm using a personal domain hosted on
-  domains.google.com.
-* Access to DHCP server. I'm using my home MikroTik router and tie
+  godaddy.com.
+* Access to DHCP server. I'm using my home tp-link router and tie
   specific IP addresses to known mac addresses. ie: VMs always get the
   same IP address from DHCP.
 * RHEL 7 KVM hypervisor host
-* `rhel-guest-image-7.3-35.x86_64.qcow2` (from https://access.redhat.com/downloads/)
-* 2 NICs on your hypervisor.  I use an onboard NIC plus an inexpensive USB NIC.
+* `rhel-server-7.5-x86_64-kvm.qcow2` (from https://access.redhat.com/downloads/)
+* 1 NICs on your hypervisor. (You can optionally use two).
 
 ## editing scripts
 
-You should only have to edit one configuration file, env.sh
+You will edit env.sh, variables.sh, and vault.yml
 
 ### edit various files
 
 * Edit `env.sh` for your environment:
-  - DOMAIN - the domain name to use for the hosts (ie: gwiki.org)
+  - DOMAIN - the domain name to use for the hosts (ie: pokitoach.com)
   - MACADDRESS - MAC addresses for your VMs (be unique)
-  - OCPDOMAIN - the domain name for the cluster (ie: ocp.nozell.com,
-    *.apps.nozell.com)  
+  - OCPDOMAIN - the domain name for the cluster (ie: ocp.hupiper.com,
+    *.apps.hupiper.com)  
   - WORKSPACE, VMS - where VMs, etc are stored
   - ISOS - where your ISOs can be found
-  - RHEL_IMAGE - your rhel-guest-image-7.3-35.x86_64.qcow2 is
+  - RHEL_IMAGE - your rhel-server-7.5-x86_64-kvm.qcow2 image 
   - BRIDGE - which bridge to use.  See Network Notes below
 
-* Update your DNS server. Google hosts my DNS records, so I don't need
+* Update your DNS server. godaddy hosts my DNS records, so I don't need
   to hack `/etc/resolv.conf`. But you will need to update your DNS A
   records to point to the local addresses so it looks like this.  eg:
 
@@ -78,8 +76,8 @@ addresses. ie: VMs always get the same IP address from DHCP.
   only allow the VMs be connected to from the hypervisor or other VMs
   on the same host.
 
-  I want to be able to connect to the individual VMs from any system,
-  so I added a second NIC in the form of an inexpensive USB 3 NIC
+  If you want to be able to connect to the individual VMs from any system,
+  you can add a second NIC in the form of an inexpensive USB 3 NIC
   (enp0s20f0u1)
 
   Here are the NetworkManager CLI commands to create another bridge
@@ -131,9 +129,12 @@ addresses. ie: VMs always get the same IP address from DHCP.
   username/password in variables. (ie: what you use on the Red Hat
   portal)
 
-  `ansible-vault create vault.yml`
+  **Delete the vault.yml file cloned in this repo first**
 
-  Make variable.yml look something like this:
+  `ansible-vault create vault.yml` - this command will open
+  a vi session with a file called vault.yml. 
+
+  add these two lines to this file:
 
   `vault_rhn_username: my-rhn-support-username`
 
@@ -144,7 +145,7 @@ addresses. ie: VMs always get the same IP address from DHCP.
   
 ## Run on your hypervisor
 
-*   `0-generate.sh` -- Create hosts and hosts.ocp based on your env.sh settings
+~~*   `0-generate.sh` -- Create hosts and hosts.ocp based on your env.sh settings~~
 *   `1-create.sh` -- Create qemu files for OS, container storage, OS config
 *   `2-build.sh` -- Install VMs and attach disks
 *   `start-all.sh` -- boot them up
@@ -156,7 +157,7 @@ addresses. ie: VMs always get the same IP address from DHCP.
 
 ### Install OpenShift 
 
-* `hypervisor# ssh root@jump.gwiki.com # password is redhat`
+* `hypervisor# ssh root@jump.pokitoach.com # password is redhat`
 * `jump#       ssh-keygen`
 * `jump#       bash ./3-keys.sh`
 * `jump#       ansible-playbook -i hosts.ocp /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml`
@@ -171,7 +172,7 @@ addresses. ie: VMs always get the same IP address from DHCP.
 
 The easiest way to get started is to point a browser to
 https://ocp.$OCPDOMAIN:8443/ (in my example,
-https://ocp.nozell.com:8443)
+https://ocp.hupiper.com:8443)
 
 
 ## TODO

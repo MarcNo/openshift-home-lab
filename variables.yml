@@ -4,4 +4,4 @@
 ##     subscription-manager list --all --available --matches "*openshift*"
 ##
 ## This is tied to my Red Hat subscription, so it won't work for you.  
-openshift_subscription_pool: 8a85f98c63842fef01647d9012060465
+openshift_subscription_pool: 8a85f98b651a7ece016533cca34a225a
