@@ -116,11 +116,11 @@ addresses. ie: VMs always get the same IP address from DHCP.
 
 * Use ssh-keygen to create a new key pair. This key will be added to the VMs.
 
-  'ssh-keygen -f /home/<USER>/.ssh/id_rsa -t rsa -N '''
+  `ssh-keygen -f /home/<USER>/.ssh/id_rsa -t rsa -N ''`
 
   Then copy the public key to the ocp directory - 
  
-  'cp ~/.ssh/id_rsa.pub to ~/ocp/vm_id_rsa.pub'
+  `cp ~/.ssh/id_rsa.pub to ~/ocp/vm_id_rsa.pub`
 
 
 ### edit variables.yml
