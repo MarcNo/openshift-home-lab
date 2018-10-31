@@ -112,6 +112,17 @@ addresses. ie: VMs always get the same IP address from DHCP.
 
   `virsh net-autostart default`
 
+### generate SSH key pair
+
+* Use ssh-keygen to create a new key pair. This key will be added to the VMs.
+
+  'ssh-keygen -f /home/<USER>/.ssh/id_rsa -t rsa -N '''
+
+  Then copy the public key to the ocp directory - 
+ 
+  'cp ~/.ssh/id_rsa.pub to ~/ocp/vm_id_rsa.pub'
+
+
 ### edit variables.yml
 
 * You need to set the openshift_subscription_pool for your own Red Hat account.
