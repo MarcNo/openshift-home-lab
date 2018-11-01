@@ -1,5 +1,6 @@
 - hosts: jump
-  sudo: True
+#  sudo: True
+  become: yes
 
   tasks:
 
@@ -18,16 +19,13 @@
       ignore_errors: true
 
     - name: register node with subscription-manager
-      redhat_subscription: state=present username="{{ vault_rhn_username }}" password="{{ vault_rhn_password }}" autosubscribe=false
+      redhat_subscription: state=present username={{ vault_rhn_username }} password={{ vault_rhn_password }} autosubscribe=false
       register: task_result
-      until: task_result | succeeded
+      until: task_result is succeeded
       retries: 10
       delay: 5
 
-    - name: "Disable all the enabled RHSM repositories"
-      shell: subscription-manager repos --disable="*"
-
-    - name: attach node to subscription pool
+    - name: "attach node to subscription pool"
       command: subscription-manager attach --pool {{ item }}
       register: task_result
       until: task_result.rc == 0
@@ -36,13 +34,34 @@
       ignore_errors: no
       with_items: '{{openshift_subscription_pool}}'
 
-    - name: "Add repositories for OpenShift 3.10"
-      shell: subscription-manager repos --enable="rhel-7-server-rpms" --enable="rhel-7-server-extras-rpms" --enable="rhel-7-server-ose-3.10-rpms" --enable="rhel-7-fast-datapath-rpms" --enable="rhel-7-server-ansible-2.4-rpms"
+    - name: "Disable all the enabled RHSM repositories"
+      shell: subscription-manager repos --disable="*"
+
+    - name: "Add repositories for OpenShift 3.11"
+      shell: subscription-manager repos --enable="rhel-7-server-rpms" --enable="rhel-7-server-extras-rpms" --enable="rhel-7-server-ose-3.11-rpms" --enable="rhel-7-fast-datapath-rpms" --enable="rhel-7-server-ansible-2.5-rpms"
 
     - name: "Update the system"
       yum:
         name: '*'
         state: latest
+
+    - name: "Install required packages"
+      yum: name={{ item }} state=present
+      with_items:
+       - wget
+       - git
+       - net-tools
+       - bind-utils
+       - iptables-services
+       - bridge-utils
+       - bash-completion
+       - kexec-tools
+       - sos
+       - psacct
+       - yum-utils
+       - openshift-ansible
+       - docker
+
 
     - name: "Ansible and scripts to drive the openshift installation"
       yum: name={{ item }} state=present
@@ -50,7 +69,7 @@
        - openshift-ansible
        - ansible
 
-    - name: "Nice to have extra packages"
-      yum: name={{ item }} state=present
-      with_items:
-       - emacs-nox 
+#    - name: "Nice to have extra packages"
+#      yum: name={{ item }} state=present
+#      with_items:
+#       - emacs-nox 
