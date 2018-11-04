@@ -35,9 +35,14 @@ Thanks to mmagnani, ruchika, and MarcNo for kickstarting the initial work.
 
 ## editing scripts
 
-You will edit env.sh, variables.sh, and vault.yml
+You will edit env.sh, variables.sh, vault.yml, hosts, hosts.ocp, hosts.jump,
+prep-os-for-ocp.yml, prep-os-for-bastion.yml
 
 ### edit various files
+
+When you look at the env.sh file, you'l lnotice that the MAC addresses 
+are already set up for your VMs. You need to take those MACs and add them
+to your router (in my case) to pin IP addresses to those MACs.
 
 * Edit `env.sh` for your environment:
   - DOMAIN - the domain name to use for the hosts (ie: pokitoach.com)
@@ -62,7 +67,7 @@ You will edit env.sh, variables.sh, and vault.yml
         Address: 192.168.88.99
 
 Also setup wildcard DNS entry for *.ocp.$OCPDOMAIN, *.apps.$OCPDOMAIN to
-point to the master0.$OCPDOMAIN
+point to the master0.$DOMAIN
 
 * Update your DHCP server
 
@@ -171,7 +176,7 @@ addresses. ie: VMs always get the same IP address from DHCP.
 * `hypervisor# ssh root@jump.pokitoach.com # password is redhat`
 * `jump#       ssh-keygen`
 * `jump#       bash ./3-keys.sh`
-* `jump#       ansible-playbook -i hosts.ocp /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml`
+* `jump#       ansible-playbook -i hosts.ocp /usr/share/ansible/openshift-ansible/playbooks/deploy-cluster.yml`
 
 * Once the cluster is created, ssh root@master0 and create a non-admin user:
 
@@ -185,7 +190,3 @@ The easiest way to get started is to point a browser to
 https://ocp.$OCPDOMAIN:8443/ (in my example,
 https://ocp.hupiper.com:8443)
 
-
-## TODO
-
-* fix warning messages from ansible (replace sudo with become/become_user/become_method, service module, etc)

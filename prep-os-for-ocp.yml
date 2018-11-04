@@ -39,7 +39,7 @@
     #   shell: yum-config-manager --disable \*
 
     - name: "Add repositories for OpenShift 3.11"
-      shell: subscription-manager repos --enable="rhel-7-server-rpms" --enable="rhel-7-server-extras-rpms" --enable="rhel-7-server-ose-3.11-rpms" --enable="rhel-7-fast-datapath-rpms" --enable="rhel-7-server-ansible-2.7-rpms"
+      shell: subscription-manager repos --enable="rhel-7-server-rpms" --enable="rhel-7-server-extras-rpms" --enable="rhel-7-server-ose-3.11-rpms" --enable="rhel-7-fast-datapath-rpms" --enable="rhel-7-server-ansible-2.6-rpms"
 
     - name: "Update the system"
       yum:
