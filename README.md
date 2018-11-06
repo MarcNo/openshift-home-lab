@@ -154,11 +154,10 @@ that command. If it is not Skylake-client, you'll need to edit the command in
 
 ### 10. Set up Linux Bridging
 
-We are using Linux bridging to connect the physical NIC to the VMs in the
-hypervisor. The bridge is called LondonBridge (it was that way when I forked -  
-you can use br0 or something similar if you like, but you'll have to make sure
-all of the scripts are using that name too). I'm assuming you are using the
-Network Manager.
+We are using Linux bridging to connect the physical NIC to the VMs in the hypervisor. 
+The bridge is called LondonBridge (it was that way when I forked - you can use 
+br0 or something similar if you like, but you'll have to make sure all of the 
+scripts are using that name too). I'm assuming you are using the Network Manager.
 
 ```
 $ sudo nmcli con add type bridge con-name LondonBridge ifname LondonBridge
