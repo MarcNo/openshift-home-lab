@@ -16,7 +16,11 @@ Thanks to mmagnani, ruchika, and MarcNo for kickstarting the initial work.
 
 ## What do you get
 
-* Three RHEL7.5 VMs running in KVM
+* Three RHEL7.5 VMs running in KVM (1 master, 1 node, 1 jump). You can add
+  more as desired as part of the initial installation, or after you get 
+  things up and running. The more VMs you turn on, the more memory you will
+  need. I have more than one server serving some of my nodes (more on that 
+  below). 
 * Registered and appropriate subscriptions attached 
 * required RPMs installed, including atomic-openshift-installer
 * docker installed and storage configured
@@ -24,19 +28,29 @@ Thanks to mmagnani, ruchika, and MarcNo for kickstarting the initial work.
 
 ## Requirements
 
-* Access to DNS server.  I'm using a personal domain hosted on
+* Access to DNS server.  I'm using two personal domains hosted on
   godaddy.com.
 * Access to DHCP server. I'm using my home tp-link router and tie
   specific IP addresses to known mac addresses. ie: VMs always get the
   same IP address from DHCP.
 * RHEL 7 KVM hypervisor host
 * `rhel-server-7.5-x86_64-kvm.qcow2` (from https://access.redhat.com/downloads/)
-* 1 NICs on your hypervisor. (You can optionally use two).
+* 1 NIC on your hypervisor. (You can optionally use two).
 
-## editing scripts
+If you are looking at this the first time, and wondering what you need to know to
+get up and running, this is the place to read. 
 
-You will edit env.sh, variables.sh, vault.yml, hosts, hosts.ocp, hosts.jump,
-prep-os-for-ocp.yml, prep-os-for-bastion.yml
+## edit hosts file 
+
+There are several host files in this repo. The first one you want to look at is 
+hosts. After the [ocp] line, make sure the next two lines are your FQDN's for 
+your master and your node.
+
+```bash
+[ocp]
+master0.domain.com
+node0.domain.com
+```
 
 ### edit various files
 
