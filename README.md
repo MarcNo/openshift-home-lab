@@ -159,6 +159,9 @@ The bridge is called LondonBridge (it was that way when I forked - you can use
 br0 or something similar if you like, but you'll have to make sure all of the 
 scripts are using that name too). I'm assuming you are using the Network Manager.
 
+Add this line to /etc/sysctl.conf:
+` net.ipv4.ip_forward=1`
+
 ```
 $ sudo nmcli con add type bridge con-name LondonBridge ifname LondonBridge
 $ sudo nmcli con add type ethernet con-name UK-slave ifname enp0s25 master LondonBridge
