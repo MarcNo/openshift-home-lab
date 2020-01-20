@@ -2,6 +2,7 @@
 [OSEv3:children]
 masters
 nodes
+etcd
 
 # Set variables common for all OSEv3 hosts
 [OSEv3:vars]
@@ -12,38 +13,32 @@ debug_level=4
 ansible_ssh_user=root
 
 openshift_deployment_type=openshift-enterprise
+oreg_auth_user=<userid>
+oreg_auth_password=<password>
 
 openshift_master_cluster_method=native
 
-# apps.nozell.com resolves to node0.gwiki.org ip address
-openshift_master_default_subdomain=apps.nozell.com
+openshift_master_default_subdomain=apps.hupiper.com
 
 openshift_metrics_install_metrics=true
 openshift_metrics_hawkular_hostname=hawkular-metrics.{{openshift_master_default_subdomain}}
-
 openshift_logging_install_logging=true
 
 openshift_enable_service_catalog=true
 
-#openshift_disable_check=memory_availablity,disk_availablity
+openshift_logging_es_nodeselector={"node-role.kubernetes.io/infra":"true"}
 
-# uncomment the following to enable htpasswd authentication; defaults to DenyAllPasswordIdentityProvider
-
-#openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
 openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
 
 # host group for masters
 [masters]
-master0.gwiki.org
+master0.pokitoach.com
 
 # host group for etcd
 [etcd]
-master0.gwiki.org
+master0.pokitoach.com
 
-# host group for nodes, includes region info
+# host group for nodes
 [nodes]
-# deprecated master0.gwiki.org openshift_node_labels="{'region': 'infra', 'zone': 'default'}" openshift_schedulable=true
-# deprecated node0.gwiki.org openshift_node_labels="{'region': 'primary', 'zone': 'east'}" openshift_schedulable=true
-
-master0.gwiki.org openshift_node_group_name='node-config-master-infra'
-node0.gwiki.org openshift_node_group_name='node-config-compute'
+master0.pokitoach.com openshift_node_group_name='node-config-master-infra'
+node0.pokitoach.com openshift_node_group_name='node-config-compute'

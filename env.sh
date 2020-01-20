@@ -1,5 +1,5 @@
 # See README.md
-export DOMAIN="gwiki.org"
+export DOMAIN="pokitoach.com"
 declare -A MACADDRESS=( \
         ["jump."$DOMAIN]="52:54:00:42:B4:AD" \
      ["master0."$DOMAIN]="52:54:00:2C:C2:A0" \
@@ -22,11 +22,11 @@ declare -A MACADDRESS=( \
       ["xnode8."$DOMAIN]="64:54:00:42:B4:10" \
       ["xnode9."$DOMAIN]="64:54:00:42:B4:11" \
 )
-export OCPDOMAIN="nozell.com"
+export OCPDOMAIN="hupiper.com"
 export WORKSPACE="$HOME/ocp"
 export VMS="$WORKSPACE/VMs"
 export ISOS="$HOME/ISOs"
-export RHEL_IMAGE="$ISOS/rhel-server-7.5-update-1-x86_64-kvm.qcow2"
+export RHEL_IMAGE="$ISOS/rhel-server-7.5-x86_64-kvm.qcow2"
 export BRIDGE="LondonBridge" # or virbr0 depending on your needs
 #export BRIDGE="virbr0"
 export VMRAM_JUMP=8192
